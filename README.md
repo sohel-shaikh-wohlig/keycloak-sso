@@ -31,3 +31,18 @@ backend npm start
 ```
 
 ### github integration
+```
+
+Create client in realm with the following values:
+- Client ID: demo-client
+- Client authentication: Off
+- Authenticationflow:Standard flow
+- Valid Redirect URIs: http://localhost:8081/
+- Web Origins: http://localhost:8081
+
+
+Go to the identity providers tab in keycloak panel and create a provider and copy the redirect_uri from keycloak to use it while creating the github Oauth application
+Create an Oauth app in Github to get the client ID and client secret.
+
+cd github-sso =>  npm run serve
+```
