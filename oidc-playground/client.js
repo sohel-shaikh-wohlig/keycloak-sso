@@ -67,6 +67,7 @@ function loadTokens() {
     var params = 'grant_type=authorization_code';
     params += '&code=' + code;
     params += '&client_id=' + clientId;
+    params += '&client_secret=5ujL7QUQP4L1v2YgVCft9Zmqrf0YqcY8'; 
     params += '&redirect_uri=' + document.location.href.split('?')[0];
 
     var req = new XMLHttpRequest();
