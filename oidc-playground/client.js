@@ -63,11 +63,12 @@ function generateAuthenticationRequest() {
 function loadTokens() {
     var code = getInput('input-code');
     var clientId = getInput('input-clientid');
+    var secret = getInput('input-secret');
 
     var params = 'grant_type=authorization_code';
     params += '&code=' + code;
     params += '&client_id=' + clientId;
-    params += '&client_secret=5ujL7QUQP4L1v2YgVCft9Zmqrf0YqcY8'; 
+    params += '&client_secret=' + secret; 
     params += '&redirect_uri=' + document.location.href.split('?')[0];
 
     var req = new XMLHttpRequest();
@@ -79,6 +80,7 @@ function loadTokens() {
             setState('refreshToken', response['refresh_token']);
             setState('idToken', response['id_token']);
             setState('accessToken', response['access_token']);
+            setState('clientSecret', secret);
 
             if (response['id_token']) {
                 var idToken = response['id_token'].split('.');
@@ -113,6 +115,7 @@ function refreshTokens() {
     var params = 'grant_type=refresh_token';
     params += '&refresh_token=' + state.refreshToken;
     params += '&client_id=' + getInput('input-clientid');
+    params += '&client_secret=' + state.clientSecret; 
     params += '&scope=' + getInput('input-scope');
 
     var req = new XMLHttpRequest();
