@@ -81,6 +81,7 @@ function loadTokens() {
             setState('idToken', response['id_token']);
             setState('accessToken', response['access_token']);
             setState('clientSecret', secret);
+            setState('clientID', clientId);
 
             if (response['id_token']) {
                 var idToken = response['id_token'].split('.');
@@ -165,11 +166,48 @@ function userInfo() {
     window.history.pushState({}, document.title, '/');
 }
 
+// User Logout
+async function userLogout() {
+    var req = new XMLHttpRequest();
+    req.open('POST', state.issuer + '/protocol/openid-connect/logout', true);
+    req.setRequestHeader('Authorization', 'Bearer ' + state.accessToken);
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.send(`client_id=${state.clientID}&refresh_token=${state.refreshToken}&client_secret=${state.clientSecret}`);
+    window.location.href = '/'
+}
+
+// Create a Permissions Request
+function generatePermissionsRequest(){
+    var resource_scope = getInput('input-resource-scope');
+
+    var params = 'grant_type=urn:ietf:params:oauth:grant-type:uma-ticket';
+    params += '&permission=' + resource_scope;
+    params += '&response_mode=permissions';
+    params += '&audience=' +  state.clientID;
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (req.readyState === 4) {
+            var response = JSON.parse(req.responseText);
+            console.log(response)
+            setOutput('output-permissionsResponse', response)
+        }
+    }
+
+    req.open('POST', state.issuer + '/protocol/openid-connect/token', true);
+    req.setRequestHeader('Authorization', 'Bearer ' + state.accessToken);
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    req.send(params);
+
+    window.history.pushState({}, document.title, '/');
+}
+
 /*************************/
 /* Application functions */
 /*************************/
 
-var steps = ['discovery', 'authentication', 'token', 'refresh', 'userinfo']
+var steps = ['discovery', 'authentication', 'token', 'refresh', 'userinfo', 'permissions']
 var state = loadState();
 
 function reset() {

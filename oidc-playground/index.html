@@ -15,7 +15,9 @@
 <button onclick="step('token')">3 - Token</button>
 <button onclick="step('refresh')">4 - Refresh</button>
 <button onclick="step('userinfo')">5 - UserInfo</button>
+<button onclick="step('permissions')">5 - Permissions</button>
 <button onclick="reset()">Reset</button>
+<button onclick="userLogout()">Logout</button>
 
 <hr/>
 
@@ -110,6 +112,19 @@
 
     <h3>UserInfo Response</h3>
     <pre id="output-userInfoResponse"></pre>
+</div>
+
+<div id="step-permissions" style="display: none;">
+    <h2>Obtaining Permissions</h2>
+    <p>
+        <label>Resource & scope</label><input id="input-resource-scope" value="Resource A#Scope A, Resource A#Scope A,"><br/>
+    </p>
+    <p>
+        <button onclick="generatePermissionsRequest()">Get Permissions</button>
+    </p>
+    <hr/>
+    <h3>Permissions Response</h3>
+    <pre id="output-permissionsResponse"></pre>
 </div>
 
 </body>
