@@ -1,3 +1,21 @@
+# Running Keycloak on GKE Production Mode with sub domain
+env variables
+```
+            - name: KC_HOSTNAME
+              value: sso-dev.confixa.com
+            - name: KC_HOSTNAME_ADMIN_URL
+              value: https://sso-dev.confixa.com/
+            - name: KC_HTTP_ENABLED
+              value: 'false'
+            - name: KC_HOSTNAME_STRICT
+              value: 'true'
+            - name: KC_HOSTNAME_STRICT_HTTPS
+              value: 'true'
+            - name: KC_PROXY
+              value: edge
+```
+
+
 # Running Keycloak on Docker
 ```
 docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:23.0.4 start-dev
